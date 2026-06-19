@@ -70,6 +70,43 @@ button.capture {
   text-align: center;
 }
 
+.howto {
+  background: #fff;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+}
+
+.howto h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.howto ol {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.1em;
+  text-align: center;
+  padding: 0.05rem 0.35rem;
+  font-family: inherit;
+  font-size: 0.85em;
+  border: 1px solid #c4c4cc;
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: #f4f4f5;
+  color: #1b1b1f;
+}
+
 .settings {
   background: #fff;
   border: 1px solid #e4e4e7;
@@ -99,6 +136,25 @@ button.capture {
   border: 1px solid #d4d4d8;
   border-radius: 8px;
   font-size: 0.95rem;
+}
+
+.settings label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1b1b1f;
+  font-size: 0.9rem;
+}
+
+.settings label.checkbox input {
+  width: auto;
+  padding: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .settings label.checkbox {
+    color: #f0f0f0;
+  }
 }
 
 .status {
@@ -207,9 +263,18 @@ button.capture {
     background-color: #1b1b1f;
   }
   .settings,
+  .howto,
   .history li {
     background: #27272a;
     border-color: #3f3f46;
+  }
+  .howto ol {
+    color: #d4d4d8;
+  }
+  kbd {
+    background: #3f3f46;
+    border-color: #52525b;
+    color: #f0f0f0;
   }
   .settings input {
     background: #1b1b1f;

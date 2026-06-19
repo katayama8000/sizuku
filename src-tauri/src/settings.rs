@@ -14,6 +14,10 @@ pub struct Settings {
     pub base_url: String,
     pub user: String,
     pub pass: String,
+    /// When true, run as a menu-bar resident app: no Dock icon and no window on launch.
+    /// When false (default), behave as a normal desktop app: Dock icon + window on launch.
+    #[serde(default)]
+    pub menu_bar_mode: bool,
 }
 
 impl Settings {
