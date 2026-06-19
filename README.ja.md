@@ -41,6 +41,27 @@ npm run tauri build
 ```
 `src-tauri/target/release/bundle/` に配布用アプリが生成されます。
 
+## トラブルシュート: 画面収録(Screen Recording)権限
+撮影時に `could not create image from rect` が出る場合、アプリに macOS の
+**画面収録**権限がありません。
+
+- **本番ビルド(`.app`)— 推奨。** 権限が bundle id(`com.katayama8000.sizuku`)に
+  紐づくため安定します。`npm run tauri build` →
+  `src-tauri/target/release/bundle/macos/sizuku.app` を起動 → 初回キャプチャ時の
+  プロンプトで許可 → アプリを完全終了して再起動。
+- **dev モード(`npm run tauri dev`)。** dev バイナリは再ビルドのたびに署名が変わり、
+  付与した権限が無効化されます。また macOS は権限を **dev を起動したプロセス
+  (=ターミナル)** に紐づけます。そのため**起動元アプリ**に画面収録権限を付与してください
+  — 例: **Visual Studio Code**(統合ターミナルから起動する場合)や **Terminal** / **iTerm**。
+  付与後、そのアプリを**完全に再起動**してから `npm run tauri dev`。
+- プロンプトを再表示させたい場合は、リセットしてから起動し直します:
+  ```bash
+  tccutil reset ScreenCapture com.katayama8000.sizuku
+  ```
+
+権限は **システム設定 → プライバシーとセキュリティ → 画面とシステムオーディオの収録** にあります。
+変更はアプリを完全終了して再起動するまで反映されません。
+
 ## 構成
 - フロント: React + TypeScript + Vite (`src/`)
 - バックエンド: Rust / Tauri v2 (`src-tauri/src/`)

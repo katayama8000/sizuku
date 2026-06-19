@@ -42,6 +42,27 @@ npm run tauri build
 ```
 The distributable app is generated under `src-tauri/target/release/bundle/`.
 
+## Troubleshooting: Screen Recording permission
+If capture fails with `could not create image from rect`, the app lacks macOS
+**Screen Recording** permission.
+
+- **Production build (`.app`) — recommended.** Permission is keyed to the bundle id
+  (`com.katayama8000.sizuku`) and stays stable. Run `npm run tauri build`, launch
+  `src-tauri/target/release/bundle/macos/sizuku.app`, allow the permission prompt on
+  the first capture, then fully quit and relaunch.
+- **Dev mode (`npm run tauri dev`).** The dev binary is re-signed on every rebuild, so
+  the granted permission keeps getting invalidated. macOS also attributes the permission
+  to the **process that launched dev** (your terminal). So grant Screen Recording to the
+  launcher app — e.g. **Visual Studio Code** (if launching from its integrated terminal)
+  or **Terminal** / **iTerm** — then fully restart that app and run `npm run tauri dev`.
+- To force the permission prompt to appear again, reset it and relaunch:
+  ```bash
+  tccutil reset ScreenCapture com.katayama8000.sizuku
+  ```
+
+Permission lives in **System Settings → Privacy & Security → Screen & System Audio Recording**.
+Changes take effect only after the app is fully quit and relaunched.
+
 ## Project structure
 - Frontend: React + TypeScript + Vite (`src/`)
 - Backend: Rust / Tauri v2 (`src-tauri/src/`)
