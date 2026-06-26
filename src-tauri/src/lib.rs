@@ -136,9 +136,10 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_clipboard_manager::init())
         .setup(|app| {
-            let menu_bar_mode = settings::load_settings(app.handle())
-                .map(|s| s.menu_bar_mode)
-                .unwrap_or(false);
+            // The launch mode is fixed at compile time by the dedicated dev/build npm
+            // scripts (`dev:menubar` / `build:menubar` set SIZUKU_MENU_BAR_MODE=1).
+            // Defaults to desktop mode when the flag is unset.
+            let menu_bar_mode = matches!(option_env!("SIZUKU_MENU_BAR_MODE"), Some("1"));
 
             // Menu-bar mode: no Dock icon, no window on launch (the window stays hidden,
             // reachable via the tray). Desktop mode: Dock icon + show the window on launch.

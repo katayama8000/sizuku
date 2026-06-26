@@ -11,7 +11,6 @@ export function SettingsForm({ onSaved }: Props) {
     base_url: "",
     user: "",
     pass: "",
-    menu_bar_mode: false,
   });
   const [status, setStatus] = useState<string>("");
 
@@ -28,7 +27,7 @@ export function SettingsForm({ onSaved }: Props) {
     e.preventDefault();
     try {
       await saveSettings(settings);
-      setStatus("Saved — restart the app to apply the menu-bar mode change");
+      setStatus("Saved");
       onSaved(settings);
     } catch (err) {
       setStatus(`Failed to save: ${String(err)}`);
@@ -62,14 +61,6 @@ export function SettingsForm({ onSaved }: Props) {
           value={settings.pass}
           onChange={(e) => update({ pass: e.target.value })}
         />
-      </label>
-      <label className="checkbox">
-        <input
-          type="checkbox"
-          checked={settings.menu_bar_mode}
-          onChange={(e) => update({ menu_bar_mode: e.target.checked })}
-        />
-        Run as menu bar app (hide Dock icon &amp; window on launch)
       </label>
       <button type="submit">Save settings</button>
       {status && <p className="status">{status}</p>}

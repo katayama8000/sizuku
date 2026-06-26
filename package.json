@@ -5,9 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build:dist": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "dev:desktop": "SIZUKU_MENU_BAR_MODE=0 tauri dev",
+    "dev:menubar": "SIZUKU_MENU_BAR_MODE=1 tauri dev",
+    "build:desktop": "SIZUKU_MENU_BAR_MODE=0 tauri build",
+    "build:menubar": "SIZUKU_MENU_BAR_MODE=1 tauri build --config src-tauri/tauri.menubar.conf.json",
+    "build": "npm run build:desktop && npm run build:menubar"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",

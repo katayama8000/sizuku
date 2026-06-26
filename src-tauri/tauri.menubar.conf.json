@@ -1,0 +1,5 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "sizuku-menubar",
+  "identifier": "com.katayama8000.sizuku.menubar"
+}
