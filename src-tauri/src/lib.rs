@@ -42,6 +42,13 @@ fn trigger_capture<R: Runtime>(app: &AppHandle<R>) {
             let msg = e.to_string();
             // Cancellation is not an error worth surfacing.
             if !msg.contains("cancel") {
+                // In menu-bar mode the window is hidden, so a failure (e.g. settings not
+                // configured yet) would otherwise be invisible and the capture appears to
+                // do nothing. Bring the window up so the error toast / settings form shows.
+                if let Some(w) = app.get_webview_window("main") {
+                    let _ = w.show();
+                    let _ = w.set_focus();
+                }
                 let _ = app.emit("capture-error", msg);
             }
         }

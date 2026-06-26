@@ -75,6 +75,8 @@ npm run build:menubar  # メニューバー常駐版のみ
 
 配布用アプリは `src-tauri/target/release/bundle/` に生成されます。バンドル識別子が異なるため、
 **画面収録**権限は各アプリで初回利用時にそれぞれ要求されます。
+**設定と履歴は2つのビルドで共有**されます(`~/Library/Application Support/com.katayama8000.sizuku/`
+配下の単一ストアに固定)。設定は一度行えば両方で使えます。
 
 ## トラブルシュート: 画面収録(Screen Recording)権限
 撮影時に `could not create image from rect` が出る場合、アプリに macOS の

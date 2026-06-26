@@ -1,9 +1,8 @@
 use crate::error::{AppError, AppResult};
-use crate::settings::STORE_FILE;
+use crate::settings::open_store;
 use serde::{Deserialize, Serialize};
 use std::time::{SystemTime, UNIX_EPOCH};
 use tauri::{AppHandle, Runtime};
-use tauri_plugin_store::StoreExt;
 
 const HISTORY_KEY: &str = "history";
 /// Maximum number of history items to keep.
@@ -27,9 +26,7 @@ fn now_millis() -> u64 {
 }
 
 fn read_all<R: Runtime>(app: &AppHandle<R>) -> AppResult<Vec<HistoryItem>> {
-    let store = app
-        .store(STORE_FILE)
-        .map_err(|e| AppError::Store(e.to_string()))?;
+    let store = open_store(app)?;
     match store.get(HISTORY_KEY) {
         Some(value) => serde_json::from_value(value).map_err(|e| AppError::Store(e.to_string())),
         None => Ok(Vec::new()),
@@ -48,9 +45,7 @@ pub fn append<R: Runtime>(app: &AppHandle<R>, key: String, url: String) -> AppRe
     items.insert(0, item.clone());
     items.truncate(MAX_ITEMS);
 
-    let store = app
-        .store(STORE_FILE)
-        .map_err(|e| AppError::Store(e.to_string()))?;
+    let store = open_store(app)?;
     let value = serde_json::to_value(&items).map_err(|e| AppError::Store(e.to_string()))?;
     store.set(HISTORY_KEY, value);
     store.save().map_err(|e| AppError::Store(e.to_string()))?;
@@ -66,9 +61,7 @@ pub fn list_history<R: Runtime>(app: AppHandle<R>) -> AppResult<Vec<HistoryItem>
 
 #[tauri::command]
 pub fn clear_history<R: Runtime>(app: AppHandle<R>) -> AppResult<()> {
-    let store = app
-        .store(STORE_FILE)
-        .map_err(|e| AppError::Store(e.to_string()))?;
+    let store = open_store(&app)?;
     store.set(HISTORY_KEY, serde_json::json!([]));
     store.save().map_err(|e| AppError::Store(e.to_string()))?;
     Ok(())

@@ -76,6 +76,8 @@ ship as **separate apps** with distinct names and bundle identifiers, so they co
 
 Distributables are generated under `src-tauri/target/release/bundle/`. Because the bundle
 identifiers differ, each app requests its own **Screen Recording** permission on first use.
+**Settings and history are shared** between the two builds (pinned to a single store under
+`~/Library/Application Support/com.katayama8000.sizuku/`), so you only configure once.
 
 ## Troubleshooting: Screen Recording permission
 If capture fails with `could not create image from rect`, the app lacks macOS
